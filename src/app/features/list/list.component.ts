@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { ConsumingAPIService } from '../../services/consuming-api.service';
+import { ProductsService } from '../../shared/services/products.service';
 import { HttpClient } from '@angular/common/http';
+import { Product } from '../../shared/interfaces/product.interface';
 
 @Component({
   selector: 'app-list',
@@ -8,20 +9,20 @@ import { HttpClient } from '@angular/common/http';
   styleUrls: ['./list.component.scss']
 })
 export class ListComponent implements OnInit {
-  products: any[] = [];
+  products: Product[] = [];
   currentPage = 1;
   pageSize = 10;
   totalPages = 0;
   totalItems = 0;
 
-  constructor(private apiService: ConsumingAPIService) {}
+  constructor(private apiService: ProductsService) {}
 
   ngOnInit(): void {
     this.loadPage(this.currentPage);
   }
 
   loadPage(page: number): void {
-    this.apiService.getDadosDaApi(page, this.pageSize).subscribe(response => {
+    this.apiService.getAll(page, this.pageSize).subscribe(response => {
       this.products = response.data.content;
       this.totalPages = response.data.totalPages;
       this.totalItems = response.data.totalElements;
