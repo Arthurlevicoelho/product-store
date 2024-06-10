@@ -1,1 +1,10 @@
 <p>list works!</p>
+
+
+<Ul>
+    @for ( product of products; track product.id) {
+        <li >
+            {{ product.flavor }}
+        </li> 
+    }
+</Ul>
