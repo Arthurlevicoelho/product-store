@@ -1,1 +1,27 @@
-<p>create-product works!</p>
+<form [formGroup]="productForm" (ngSubmit)="onSubmit" class="form-container">
+    <div class="form-content-container">
+        <mat-form-field>
+            <mat-label>Input</mat-label>
+            <input type="text" matInput formControlName="flavor" placeholder="Sabor">
+        </mat-form-field>
+
+        <mat-form-field>
+            <mat-label>Input</mat-label>
+            <input type="number" matInput formControlName="availableQuantity" placeholder="Quantidade">
+        </mat-form-field>
+
+        <mat-form-field floatLabel="always">
+            <mat-label>Amount</mat-label>
+            <input matInput type="number" class="example-right-align" formControlName="price" placeholder="0" />
+            <span matTextPrefix>$&nbsp;</span>
+            <span matTextSuffix>.00</span>
+        </mat-form-field>
+
+        <mat-form-field>
+            <mat-label>Textarea</mat-label>
+            <textarea type="text" matInput formControlName="description" placeholder="Descrição"></textarea>
+        </mat-form-field>
+
+        <button type="submit" mat-raised-button color="accent">Salvar</button>
+    </div>
+</form>
