@@ -1,4 +1,4 @@
-<form [formGroup]="productForm" (ngSubmit)="onSubmit" class="form-container">
+<form [formGroup]="productForm" (ngSubmit)="onSubmit()" class="form-container">
     <div class="form-content-container">
         <mat-form-field>
             <mat-label>Input</mat-label>
@@ -22,6 +22,7 @@
             <textarea type="text" matInput formControlName="description" placeholder="Descrição"></textarea>
         </mat-form-field>
 
+        <input type="file" (change)="onFileChange($event)">
         <button type="submit" mat-raised-button color="accent">Salvar</button>
     </div>
 </form>

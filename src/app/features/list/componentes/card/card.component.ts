@@ -16,5 +16,6 @@ export class CardComponent {
 
   productFlavor = computed(() => this.product().flavor);
   productPrice = computed(() => this.product().price);
-  productDescription = computed(() => this.product().description)
+  productDescription = computed(() => this.product().description);
+  productImage = computed(() => this.product().image)
 }
