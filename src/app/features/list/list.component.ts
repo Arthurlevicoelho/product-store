@@ -14,7 +14,7 @@ import { MatButtonModule } from '@angular/material/button';
 })
 export class ListComponent implements OnInit {
   products: Product[] = [];
-  currentPage = 1;
+  currentPage = 0;
   pageSize = 10;
   totalPages = 0;
   totalItems = 0;

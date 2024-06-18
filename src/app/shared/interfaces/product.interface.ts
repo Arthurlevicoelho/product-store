@@ -5,6 +5,6 @@ export interface Product {
     flavor: string;
     availableQuantity: number; // BigInteger como number
     price: number; // DoubleRange como number
-    image: string;
+    image: File | null; // Permite que image seja null
     description: string;
   }

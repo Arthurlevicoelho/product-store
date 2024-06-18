@@ -1,13 +1,15 @@
 <mat-card class="example-card">
     <mat-card-header>
         <div mat-card-avatar class="example-header-image"></div>
-        <mat-card-title> {{productFlavor()}} </mat-card-title>
-        <mat-card-subtitle>{{productPrice()}}</mat-card-subtitle>
     </mat-card-header>
-    <img mat-card-image src="" alt="Foto do produto">
+    <img mat-card-image style="width: 80%;height: 10%;"  [src]="'data:image/png;base64,'+productImage()" alt="Foto do produto">
+
     <mat-card-content>
         <p>
-            {{productDescription()}}
+            <mat-card-title> {{productFlavor()}} </mat-card-title>
+            <mat-card-subtitle>{{productPrice()}}$</mat-card-subtitle>
+        
+        {{productDescription()}}
         </p>
     </mat-card-content>
     <mat-card-actions>

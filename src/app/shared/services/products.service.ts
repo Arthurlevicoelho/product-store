@@ -3,6 +3,7 @@ import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Product } from '../interfaces/product.interface';
 import { ApiResponse } from './apiResponse';
+import { ProductPayload } from '../interfaces/payload-product.interface';
 
 
 @Injectable({
@@ -10,10 +11,17 @@ import { ApiResponse } from './apiResponse';
 })
 export class ProductsService {
 
-  constructor(private http: HttpClient) {}
+  private baseUrl = 'http://localhost:8080/products';
 
-  getAll(page: any, pageSize:any) : Observable<ApiResponse> {
-    return this.http.get<ApiResponse>('http://localhost:8080/products?page=0&size=1');
+  constructor(private http: HttpClient) { }
+
+  getAll(page: number, size: number): Observable<ApiResponse> {
+    const url = `${this.baseUrl}?page=${page}&size=${size}`;
+    return this.http.get<ApiResponse>(url);
+  }
+
+  post(payload: FormData){
+    return this.http.post('http://localhost:8080/products' ,payload);
   }
   
 }
