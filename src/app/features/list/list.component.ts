@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { ProductsService } from '../../shared/services/products.service';
 import { Product } from '../../shared/interfaces/product.interface';
 import { CardComponent } from './componentes/card/card.component';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
 
 @Component({
@@ -20,7 +20,7 @@ export class ListComponent implements OnInit {
   totalItems = 0;
 
   constructor(private apiService: ProductsService) {}
-
+  router = inject(Router)
   ngOnInit(): void {
     this.loadPage(this.currentPage);
   }
@@ -46,4 +46,9 @@ export class ListComponent implements OnInit {
       this.loadPage(this.currentPage);
     }
   }
+
+  onEdit(){
+    this.router.navigateByUrl('/edit-product');
+  }
+
 }
