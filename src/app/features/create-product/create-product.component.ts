@@ -1,11 +1,13 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from "@angular/material/form-field"
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { ProductsService } from '../../shared/services/products.service';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
+
 
 @Component({
   selector: 'app-create-product',
@@ -16,7 +18,9 @@ import { RouterLink } from '@angular/router';
 })
 export class CreateProductComponent {
 
-  constructor(private apiService: ProductsService) {}
+  apiService = inject(ProductsService)
+  matSnackBar = inject(MatSnackBar)
+  router = inject(Router)
 
   productForm = new FormGroup({
     flavor: new FormControl<string>('', {
@@ -51,6 +55,7 @@ export class CreateProductComponent {
   });
 
   onSubmit() {
+
     const formData = new FormData();
     formData.append('flavor', this.productForm.controls.flavor.value);
     formData.append('availableQuantity', this.productForm.controls.availableQuantity.value.toString());
@@ -60,9 +65,15 @@ export class CreateProductComponent {
         formData.append('image', this.productForm.controls.image.value);
     }
 
-    this.apiService.post(formData).subscribe(response => {
-        // Handle response
-    });
+    this.apiService.post(formData).subscribe(() => {
+      this.matSnackBar.open("Produto criado com sucesso!", 'OK', {
+        duration:3000,
+        horizontalPosition: 'right',
+        verticalPosition: 'top'
+      });
+
+      this.router.navigateByUrl('/');
+    })
   }
 
   onFileChange(event: Event) {
@@ -73,7 +84,5 @@ export class CreateProductComponent {
         image: file
       });
     }
-  
-
 }
 }
