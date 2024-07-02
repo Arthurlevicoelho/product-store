@@ -1,4 +1,5 @@
 export interface Product {
+    [x: string]: any;
     id: string; // UUID como string
     createdAt: Date;
     updatedAt: Date;

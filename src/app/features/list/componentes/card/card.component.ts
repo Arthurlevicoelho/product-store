@@ -21,4 +21,8 @@ export class CardComponent {
 
   @Output() edit = new EventEmitter();
 
+  onEdit() {
+    this.edit.emit()
+  }
+
 }

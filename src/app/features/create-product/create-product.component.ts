@@ -7,64 +7,34 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ProductsService } from '../../shared/services/products.service';
 import { Router, RouterLink } from '@angular/router';
+import { Product } from '../../shared/interfaces/product.interface';
+import { FormComponent } from "../../shared/components/form/form.component";
 
 
 @Component({
-  selector: 'app-create-product',
-  standalone: true,
-  imports: [ReactiveFormsModule, MatFormFieldModule, MatIconModule, MatInputModule, MatButtonModule, RouterLink],
-  templateUrl: './create-product.component.html',
-  styleUrl: './create-product.component.scss'
+    selector: 'app-create-product',
+    standalone: true,
+    templateUrl: './create-product.component.html',
+    styleUrl: './create-product.component.scss',
+    imports: [ReactiveFormsModule, MatFormFieldModule, MatIconModule, MatInputModule, MatButtonModule, RouterLink, FormComponent]
 })
 export class CreateProductComponent {
 
   apiService = inject(ProductsService)
   matSnackBar = inject(MatSnackBar)
   router = inject(Router)
+  product!: Product;
 
-  productForm = new FormGroup({
-    flavor: new FormControl<string>('', {
-      nonNullable: true,
-      validators: [
-        Validators.required,
-        Validators.minLength(3),
-        Validators.maxLength(30)
-      ]
-    }),
-    availableQuantity: new FormControl<number>(0, {
-      nonNullable: true,
-      validators: [Validators.required, Validators.min(0)]
-    }),
-    price: new FormControl<number>(0, {
-      nonNullable: true,
-      validators: [Validators.required, Validators.min(0)]
-    }),
-    description: new FormControl<string>('', {
-      nonNullable: true,
-      validators: [
-        Validators.required,
-        Validators.minLength(3),
-        Validators.maxLength(100)
-      ]
-    }),
-    image: new FormControl<File | null>(null, {
-      validators: [Validators.required]
-    })
-  
-  
-  });
-
-  onSubmit() {
+  onSubmit(product: Product) {
 
     const formData = new FormData();
-    formData.append('flavor', this.productForm.controls.flavor.value);
-    formData.append('availableQuantity', this.productForm.controls.availableQuantity.value.toString());
-    formData.append('price', this.productForm.controls.price.value.toString());
-    formData.append('description', this.productForm.controls.description.value);
-    if (this.productForm.controls.image.value) {
-        formData.append('image', this.productForm.controls.image.value);
+    formData.append('flavor', product.flavor);
+    formData.append('availableQuantity', product.availableQuantity.toString());
+    formData.append('price', product.price.toString());
+    formData.append('description', product.description);
+    if (product.image) {
+      formData.append('image', product.image);
     }
-
     this.apiService.post(formData).subscribe(() => {
       this.matSnackBar.open("Produto criado com sucesso!", 'OK');
       this.router.navigateByUrl('/');
@@ -75,7 +45,7 @@ export class CreateProductComponent {
     const input = event.target as HTMLInputElement;
     if (input.files && input.files.length) {
       const file = input.files[0];
-      this.productForm.patchValue({
+      this.product['patchValue']({
         image: file
       });
     }
