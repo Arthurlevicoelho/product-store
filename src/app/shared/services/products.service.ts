@@ -20,12 +20,16 @@ export class ProductsService {
     return this.http.get<ApiResponse>(URL_GET_ALL);
   }
 
+  get(id: string) {
+    return this.http.get<Product>(`http://localhost:8080/products/${id}`);
+  }
+
   post(payload: FormData){
     return this.http.post(this.baseUrl ,payload);
   }
 
-  put(payload: FormData){
-    return this.http.put(this.baseUrl ,payload);
+  put(id:string, payload: FormData){
+    return this.http.put<Product>(`http://localhost:8080/products/${id}`,payload);
   }
   
 }
