@@ -1,6 +1,6 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, catchError, map, throwError } from 'rxjs';
 import { Product } from '../interfaces/product.interface';
 import { ApiResponse } from './apiResponse';
 import { ProductPayload } from '../interfaces/payload-product.interface';
@@ -25,11 +25,36 @@ export class ProductsService {
   }
 
   post(payload: FormData){
-    return this.http.post(this.baseUrl ,payload);
+    return this.http.post(`${this.baseUrl}`, payload)
+    .pipe(
+      map((response: any) => response.messages[0]), // Captura a mensagem de sucesso
+      catchError(this.handleError)
+    );
+
   }
 
   put(id:string, payload: FormData){
     return this.http.put<Product>(`http://localhost:8080/products/${id}`,payload);
   }
+
+  delete(id:string){
+    return this.http.delete(`http://localhost:8080/products/${id}`).pipe(
+      map((response: any) => response.messages[0]));
+  }
   
+  private handleError(error: HttpErrorResponse) {
+    let errorMessage = 'Ocorreu um erro desconhecido!';
+    if (error.error instanceof ErrorEvent) {
+      // Erro no lado do cliente
+      errorMessage = `Erro: ${error.error.message}`;
+    } else {
+      // Erro no lado do servidor
+      if (error.error && error.error.messages) {
+        errorMessage = error.error.messages.join(', ');
+      } else {
+        errorMessage = `Código do erro: ${error.status}\nMensagem: ${error.message}`;
+      }
+    }
+    return throwError(errorMessage);
+  }
 }

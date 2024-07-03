@@ -11,18 +11,22 @@ import { Product } from '../../../../shared/interfaces/product.interface';
   styleUrl: './card.component.scss'
 })
 export class CardComponent {
-
+  
   product = input.required<Product>();
-
+  
   productFlavor = computed(() => this.product().flavor);
   productPrice = computed(() => this.product().price);
   productDescription = computed(() => this.product().description);
   productImage = computed(() => this.product().image)
-
+  
   @Output() edit = new EventEmitter();
+  @Output() delete = new EventEmitter();
 
   onEdit() {
-    this.edit.emit()
+    this.edit.emit();
   }
-
+  
+  onDelete() {
+  this.delete.emit();
+  }
 }
