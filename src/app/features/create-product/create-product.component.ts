@@ -35,10 +35,12 @@ export class CreateProductComponent {
     if (product.image) {
       formData.append('image', product.image);
     }
-    this.apiService.post(formData).subscribe(() => {
-      this.matSnackBar.open("Produto criado com sucesso!", 'OK');
+    this.apiService.post(formData).subscribe((successMessage: string) => {
+      this.matSnackBar.open(successMessage, 'OK');
       this.router.navigateByUrl('/');
-    })
+    }, (error: string) => {
+      this.matSnackBar.open(error, 'OK');
+    });
   }
 
   onFileChange(event: Event) {
